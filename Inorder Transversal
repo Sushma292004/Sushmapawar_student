@@ -1,0 +1,86 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+    
+    
+    def insert(self, root, data):
+        if root is None:
+            return Node(data)
+        if data < root.data:
+            root.left = self.insert(root.left, data)
+        elif data > root.data:
+            root.right = self.insert(root.right, data)
+        return root
+        
+    #inorder Transversal
+    def inorder(self, root):
+        if root:
+            self.inorder(root.left)
+            print(root.data, end=" ")
+            self.inorder(root.right)
+    def preorder(self, root):
+        if root:
+            self.preorder(root.left)
+            print(root.data, end=" ")
+            self.preorder(root.right)
+    def postorder(self, root):
+        if root:
+            self.postorder(root.left)
+            print(root.data, end=" ")
+            self.postorder(root.right)
+    
+    def minValueNode(self, root):
+        current = root
+        while current.left:
+            current = current.left
+        print("min values:",current.data)
+
+    def minValueNode(self, root):
+        current = root
+        while current.right:
+            current = current.right
+        print("min values:",current.data)
+
+    # Delete a key
+    def delete(self, root, key):
+        if root is None:
+            return root
+        #Search for node
+        if key < root.data:
+            root.left = self.delete(root.left, key)
+        elif key > root.data:
+            root.right = self.delete(root.right, key)
+        else:
+            # Case1: Node with 1 or 0 childern
+            if root.left is None:
+                return root.right
+            elif root.right is None:
+                return root.left
+                
+            #Case2:Node with 2 children-inorder successer
+            succ=self.minValueNode(root.right)
+            root.key=succ.data
+            root.right=self.delete(root.right,succ.data)
+        return root
+
+bst = BinarySearchTree()
+root = None
+root = bst.insert(root, 50)
+root = bst.insert(root, 30)
+root = bst.insert(root, 70)
+root = bst.insert(root, 20)
+root = bst.insert(root, 40)
+root = bst.insert(root, 60)
+root = bst.insert(root, 80)
+print("Inorder Transversal (Sorted Order):")
+bst.inorder(root)
+print()
+root=bst.delete(root,60)
+bst.inorder(root)
+
